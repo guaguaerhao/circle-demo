@@ -2,20 +2,34 @@ version: 2
 jobs:
     build:
         docker:
-            - image: circleci/node:10
+          - image: circleci/node:10
         branches:
             only:
-                - master
+              - master
         steps:
-            - add_ssh_keys:
-                fingerprints:
-                    - "a9:be:29:65:7f:a9:3f:4a:9a:35:92:21:cf:3e:ac:0b"
-            - checkout
-            # - run: echo "A first hello"
-            # - run: npm -v
-            - run:
-                name: Install
-                command: yarn install
-            - run:
-                name: Build
-                command: yarn build
+          - add_ssh_keys:
+              fingerprints:
+                - "a9:be:29:65:7f:a9:3f:4a:9a:35:92:21:cf:3e:ac:0b"
+          - checkout
+          - restore_cache:
+              keys:
+                - dependencies_imooc
+          - run:
+              name: Install
+              command: yarn install
+          - save_cache:
+              paths:
+                - node_modules
+              key: dependencies_imooc  
+          - run:
+              name: Build
+              command: yarn build
+          - run:
+              name: Prepare shell commands
+              # shell chmod +x 赋予执行权限
+              # 执行shell脚本
+              command: chmod -x scripts/deploy.sh
+          - run:
+              name: Run deploy to GitHub pages
+              command: ./scripts/deploy.sh    
+
