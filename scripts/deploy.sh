@@ -12,10 +12,8 @@ mkdir gh-pages-branch
 cd gh-pages-branch
 # 创建的一个新的仓库
 # 设置发布的用户名和邮箱
-git config --global user.email "$GH_EMAIL" >/
-dev/null 2>&1
-git config --global user.name "$GH_NAME" >/
-dev/null 2>&1
+git config --global user.email "$GH_EMAIL" >/dev/null 2>&1
+git config --global user.name "$GH_NAME" >/dev/null 2>&1
 git init
 git remote add --fetch origin "$remote"
 
@@ -24,8 +22,7 @@ echo 'name is: '$GH_NAME
 echo 'sitesource is: '$siteSource
 
 # 切换gh-pages分支
-if git rev-parse --verify origin/gh-pages >/
-dev/null 2>&1; then
+if git rev-parse --verify origin/gh-pages >/dev/null 2>&1; then
     git checkout gh-pages
     # 删除掉旧的文件内容
     git rm -rf .
